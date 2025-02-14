@@ -46,6 +46,7 @@ test('mixed separators', () => {
 
 test('complex cases', () => {
   expect(clean('/test/../path/')).toBe('/path')
+  expect(clean('/test/../path////')).toBe('/path')
   expect(clean('test/path/../../another')).toBe('another')
   expect(clean('test/path/../../../..')).toBe('../..')
   expect(clean('/test/path/../../../..')).toBe('/')
@@ -108,6 +109,10 @@ test('more case', () => {
       ['/dir\\../otherDir/test.json', '/otherDir/test.json'],
       ['c:\\test\\..', 'c:/'],
       ['c:/test/..', 'c:/'],
+      ['/a/b', '/a/b'],
+      ['./a/b', 'a/b'],
+      ['/a/b/../c', '/a/c'],
+      ['a/b', 'a/b'],
     ]
   ) {
     expect(clean(a)).toEqual(b)
